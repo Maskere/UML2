@@ -14,13 +14,12 @@ namespace PizzaStore
         private int _numberOfPizzasInOrder;
         private int _orderID;
         private double _totalPrice;
-        private static int _orderIDCounter=0;
         #endregion
 
         #region Constructor
-        public Order(Customer CustomerName, Pizza PizzaName, int NumberOfPizzasInOrder)
+        public Order(Customer CustomerName, Pizza PizzaName, int NumberOfPizzasInOrder, int OrderId)
         {
-            _orderID = _orderIDCounter++;
+            _orderID = OrderId;
             _customerName = CustomerName;
             _pizzaName = PizzaName;
             _numberOfPizzasInOrder = NumberOfPizzasInOrder;
@@ -40,18 +39,16 @@ namespace PizzaStore
         public int NumberOfPizzasInOrder 
         {
             get { return _numberOfPizzasInOrder; }
-        }
-        public int OrderID
-        { 
-            get { return _orderID; }
+            set { _numberOfPizzasInOrder = value;}
         }
         public double TotalPrice
         { 
             get { return _totalPrice; } 
         }
-        public static int OrderIDCounter
+        public int OrderId 
         {
-            get { return _orderIDCounter; }
+            get { return _orderID; }
+            set { _orderID = value; }
         }
         #endregion
 
@@ -62,7 +59,7 @@ namespace PizzaStore
         }
         public override string ToString() 
         {
-            return $"Order {OrderID}: {NumberOfPizzasInOrder} x {PizzaName} for {CustomerName}";
+            return $"Order {OrderId}: {NumberOfPizzasInOrder} x {PizzaName} for {CustomerName}";
         }
         #endregion
     }
