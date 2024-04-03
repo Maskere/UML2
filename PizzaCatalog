@@ -1,0 +1,105 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PizzaStore
+{
+    public class PizzaCatalog
+    {
+        List<Pizza> Pizzas;
+        int _id;
+        public PizzaCatalog()
+        {
+            Pizzas = new List<Pizza>(new Pizza[10]);
+        }
+        public int Count
+        {
+            get { return Pizzas.Count; }
+        }
+        public Pizza GetNewPizza()
+        {
+            Console.WriteLine("Enter the pizza name: ");
+            string pizzaName = Console.ReadLine();
+            Pizza pizza = new Pizza(pizzaName, 0, 0);
+            string input = "";
+            Console.WriteLine("Enter a price: ");
+            try
+            {
+                input = Console.ReadLine();
+                pizza.Price = Int32.Parse(input);
+                if (pizza.Price < 70)
+                {
+                    throw new PriceTooLow($"Price too low. Minimum 70 kr.");
+                }
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine($"Unable to parse '{input}' - Message: {e.Message}"); throw;
+            }
+            Console.WriteLine("Enter the pizza number: ");
+            string idInput = "";
+            try
+            {
+                idInput = Console.ReadLine();
+                pizza.PizzaId = Int32.Parse(idInput);
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine($"Please enter a number. {e.Message}"); throw;
+            }
+            return pizza;
+        }
+        public void UpdatePizza(Pizza updatePizza)
+        {
+            if (Pizzas.Contains(updatePizza)) 
+            {
+                Console.WriteLine("Pizza does not exist");
+            }
+            else 
+            {
+                Pizzas.RemoveAt(updatePizza.PizzaId);
+                Pizzas.Insert(updatePizza.PizzaId, updatePizza);
+            }
+        }
+        public void CreateAPizza(Pizza pizza)
+        {
+            Pizzas.Insert(pizza.PizzaId, pizza);
+        }
+        public void DeleteAPizza(int pizzaId)
+        {
+            Pizzas.Insert(pizzaId, new Pizza("", 0, 0));
+            Pizzas.RemoveAt(pizzaId + 1);
+        }
+        public Pizza SearchForPizzaById(int pizzaId)
+        {
+            Pizza findPizza = Pizzas[pizzaId];
+            return findPizza;
+        }
+        public void Clear()
+        {
+            Pizzas.Clear();
+            Pizzas = new List<Pizza>(new Pizza[10]);
+        }
+        public void RemoveAt(int removeAt)
+        {
+            Pizzas.RemoveAt(removeAt);
+        }
+        public void PrintMenu()
+        {
+            Console.WriteLine($"There are {Pizzas.Count} items on the list");
+            foreach (Pizza pizza in Pizzas)
+            {
+                if (pizza != null)
+                {
+                    Console.WriteLine($"| {pizza} |");
+                }
+                else
+                {
+                    Console.WriteLine("   ...");
+                }
+            }
+        }
+    }
+}
