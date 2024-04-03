@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +15,7 @@ namespace PizzaStore
         #endregion
 
         #region Constructor
-        public Pizza(string Name, int Price, int pizzaId) 
+        public Pizza(string Name, int Price, int pizzaId)
         {
             _name = Name;
             _price = Price;
@@ -25,8 +25,8 @@ namespace PizzaStore
 
         #region Properties
         public int Price
-        { 
-            get { return _price; } 
+        {
+            get { return _price; }
             set { _price = value; }
         }
         public string Name
@@ -42,7 +42,7 @@ namespace PizzaStore
         #endregion
 
         #region Methods
-        public override string ToString() 
+        public override string ToString()
         {
             return $"{PizzaId} {Name} - Price:{Price}";
         }
