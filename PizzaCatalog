@@ -27,23 +27,29 @@ namespace PizzaStore
             Console.WriteLine("Enter a price: ");
             try
             {
-                input = Console.ReadLine();
-                pizza.Price = Int32.Parse(input);
-                if (pizza.Price < 70)
+                do
                 {
-                    throw new PriceTooLow($"Price too low. Minimum 70 kr.");
+                    input = Console.ReadLine();
+                    pizza.Price = Int32.Parse(input);
+                    if (pizza.Price < 70)
+                    {
+                        Console.WriteLine($"Price too low. Minimum 70 kr.");
+                    }
                 }
+                while (pizza.Price < 70);
             }
             catch (FormatException e)
             {
                 Console.WriteLine($"Unable to parse '{input}' - Message: {e.Message}"); throw;
             }
             Console.WriteLine("Enter the pizza number: ");
-            string idInput = "";
+            string idInputString = "";
             try
             {
-                idInput = Console.ReadLine();
-                pizza.PizzaId = Int32.Parse(idInput);
+                idInputString = Console.ReadLine();
+                int idInput= int.Parse(idInputString);
+                pizza.PizzaId = idInput;
+                if (Pizzas[idInput] != null) { return null; }
             }
             catch (FormatException e)
             {
@@ -53,11 +59,11 @@ namespace PizzaStore
         }
         public void UpdatePizza(Pizza updatePizza)
         {
-            if (Pizzas.Contains(updatePizza)) 
+            if (Pizzas.Contains(updatePizza))
             {
                 Console.WriteLine("Pizza does not exist");
             }
-            else 
+            else
             {
                 Pizzas.RemoveAt(updatePizza.PizzaId);
                 Pizzas.Insert(updatePizza.PizzaId, updatePizza);
