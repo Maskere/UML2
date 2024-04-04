@@ -10,10 +10,9 @@ namespace PizzaStore
     {
         #region Instance Field
         private Order _order;
-        private Customer _customerName;
-        private Pizza _pizzaName;
+        private Customer _customer;
+        private Pizza _pizza;
         private int _numberOfPizzasInOrder;
-        private string _orderID;
         private Invoice _invoice;
         private PizzaCatalog _pizzaCatalog;
         private CustomerCatalog _customerCatalog;
@@ -22,10 +21,10 @@ namespace PizzaStore
         #endregion
 
         #region Constructor
-        public BigMamma()
+        public BigMamma() 
         {
-            _order = new Order(CustomerName, Pizza, NumberOfPizzasInOrder, OrderId);
-            _customerName = CustomerName;
+            _order = new Order(Customer,Pizza, NumberOfPizzasInOrder,OrderId);
+            _customer = Customer;
             _numberOfPizzasInOrder = NumberOfPizzasInOrder;
             _invoice = Invoice;
             _pizzaCatalog = new PizzaCatalog();
@@ -35,33 +34,29 @@ namespace PizzaStore
         #endregion
 
         #region Properties
-        public Order Order
+       public Order Order 
         {
             get { return _order; }
         }
-        public Customer CustomerName
-        {
-            get { return _customerName; }
+        public Customer Customer
+        { 
+            get { return _customer; } 
         }
         public Pizza Pizza
         {
-            get { return _pizzaName; }
+            get { return _pizza; }
         }
-        public int NumberOfPizzasInOrder
+        public int NumberOfPizzasInOrder 
         {
             get { return _numberOfPizzasInOrder; }
-        }
-        public string OrderID
-        {
-            get { return _orderID; }
         }
         public Invoice Invoice
         {
             get { return _invoice; }
         }
-        public PizzaCatalog PizzaCatalog
-        {
-            get { return _pizzaCatalog; }
+        public PizzaCatalog PizzaCatalog 
+        { 
+            get { return _pizzaCatalog; } 
         }
         public CustomerCatalog CustomerCatalog { get { return _customerCatalog; } }
         public OrderCatalog OrderCatalog { get { return _orderCatalog; } }
@@ -116,18 +111,15 @@ namespace PizzaStore
             Customer customer3 = new Customer("Nikolaj", 3);
             CustomerCatalog.CreateACustomer(customer3);
 
-            Order order1 = new Order(customer1, pizza1, 2, 1);
+            Toppings toppings = new Toppings();
+            Order order1 = new Order(customer1,pizza1,2,1);
             OrderCatalog.AddAnOrderToTheList(order1);
-            Order order2 = new Order(customer2,pizza2,1,2);
-            OrderCatalog.AddAnOrderToTheList(order2);
-            Order order3 = new Order(customer3,pizza3,1,3);
-            OrderCatalog.AddAnOrderToTheList(order3);
 
-            new UserDialog(PizzaCatalog, CustomerCatalog, OrderCatalog).MainMenu();
+            new UserDialog(PizzaCatalog, CustomerCatalog,OrderCatalog).MainMenu();
         }
-        public void Run()
+        public void Run() 
         {
-
+            
         }
         public override string ToString()
         {
