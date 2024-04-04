@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,7 +41,7 @@ namespace PizzaStore
             get { return _phoneNumber; }
             set { _phoneNumber = value; }
         }
-        public int CustomerId 
+        public int CustomerId
         {
             get { return _customerId; }
             set { _customerId = value; }
@@ -49,7 +49,7 @@ namespace PizzaStore
         #endregion
 
         #region Methods
-        public override string ToString() 
+        public override string ToString()
         {
             return $"{CustomerName}";
         }
