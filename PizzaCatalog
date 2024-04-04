@@ -18,43 +18,9 @@ namespace PizzaStore
         {
             get { return Pizzas.Count; }
         }
-        public Pizza GetNewPizza()
+        public Pizza GetNewPizza(string pizzaName, int pizzaPrice, int pizzaId)
         {
-            Console.WriteLine("Enter the pizza name: ");
-            string pizzaName = Console.ReadLine();
-            Pizza pizza = new Pizza(pizzaName, 0, 0);
-            string input = "";
-            Console.WriteLine("Enter a price: ");
-            try
-            {
-                do
-                {
-                    input = Console.ReadLine();
-                    pizza.Price = Int32.Parse(input);
-                    if (pizza.Price < 70)
-                    {
-                        Console.WriteLine($"Price too low. Minimum 70 kr.");
-                    }
-                }
-                while (pizza.Price < 70);
-            }
-            catch (FormatException e)
-            {
-                Console.WriteLine($"Unable to parse '{input}' - Message: {e.Message}"); throw;
-            }
-            Console.WriteLine("Enter the pizza number: ");
-            string idInputString = "";
-            try
-            {
-                idInputString = Console.ReadLine();
-                int idInput= int.Parse(idInputString);
-                pizza.PizzaId = idInput;
-                if (Pizzas[idInput] != null) { return null; }
-            }
-            catch (FormatException e)
-            {
-                Console.WriteLine($"Please enter a number. {e.Message}"); throw;
-            }
+            Pizza pizza = new Pizza(pizzaName, pizzaPrice, pizzaId);
             return pizza;
         }
         public void UpdatePizza(Pizza updatePizza)
