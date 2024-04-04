@@ -21,16 +21,10 @@ namespace PizzaStore
         {
             get { return Customers.Count; }
         }
-        public Customer GetNewCustomer()
+        public Customer GetNewCustomer(string customerName, int customerId)
         {
-            Console.WriteLine("Enter the customer name: ");
-            string customerName = Console.ReadLine();
-            Customer customer = new Customer(customerName, 0);
-            Console.WriteLine("Enter a customer ID: ");
-            string input = Console.ReadLine();
-            int inputResult = int.Parse(input);
-            customer.CustomerId = inputResult;
-            if (Customers[inputResult] != null) { return null; }
+            Customer customer = new Customer(customerName, customerId);
+            if (Customers[customerId] != null) { return null; }
             return customer;
         }
         public void CreateACustomer(Customer customer)
