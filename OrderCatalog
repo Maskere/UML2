@@ -55,7 +55,7 @@ namespace PizzaStore
         }
         public void UpdateOrder(int orderId)
         {
-            Order updateOrder = new Order(Customers.GetNewCustomer(), Pizzas.GetNewPizza(), 0, orderId);
+            Order updateOrder = new Order(Customers.GetNewCustomer("",0), Pizzas.GetNewPizza("",0,0), 0, orderId);
             if (Order.Contains(updateOrder))
             {
                 Console.WriteLine("Customer does not exist");
