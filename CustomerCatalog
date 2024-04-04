@@ -12,7 +12,7 @@ namespace PizzaStore
     public class CustomerCatalog
     {
         List<Customer> Customers;
-        public CustomerCatalog() 
+        public CustomerCatalog()
         {
             new Customer("", 0);
             Customers = new List<Customer>(new Customer[10]);
@@ -21,55 +21,56 @@ namespace PizzaStore
         {
             get { return Customers.Count; }
         }
-        public Customer GetNewCustomer() 
+        public Customer GetNewCustomer()
         {
             Console.WriteLine("Enter the customer name: ");
             string customerName = Console.ReadLine();
-            Customer customer = new Customer(customerName,0);
+            Customer customer = new Customer(customerName, 0);
             Console.WriteLine("Enter a customer ID: ");
             string input = Console.ReadLine();
             int inputResult = int.Parse(input);
             customer.CustomerId = inputResult;
+            if (Customers[inputResult] != null) { return null; }
             return customer;
         }
         public void CreateACustomer(Customer customer)
         {
-            Customers.Insert(customer.CustomerId, customer);
+                Customers.Insert(customer.CustomerId, customer);
         }
         public void DeleteACustomer(int CustomerId)
         {
-            Customers.Insert(CustomerId, new Customer("",CustomerId));
+            Customers.Insert(CustomerId, new Customer("", CustomerId));
             Customers.RemoveAt(CustomerId + 1);
         }
-        public Customer SeachForCustomerById(int customerId) 
+        public Customer SeachForCustomerById(int customerId)
         {
             Customer findCustomer = Customers[customerId];
-            return findCustomer; 
+            return findCustomer;
         }
         public void UpdateCustomer(Customer updatedCustomer)
         {
-            if (Customers.Contains(updatedCustomer)) 
+            if (Customers.Contains(updatedCustomer))
             {
                 Console.WriteLine("Customer does not exist");
-            } 
+            }
             else
             {
                 Customers.RemoveAt(updatedCustomer.CustomerId);
                 Customers.Insert(updatedCustomer.CustomerId, updatedCustomer);
             }
         }
-        public Customer SearchCustomerByName(string customerName)
-        {
-            foreach (Customer customer in Customers)
-            {
-                for (int i = 0; i < Customers.Count; i++)
-                {
-                    if (Customers[i].CustomerName == customerName)
-                        return Customers[i];
-                }
-            }
-            return ;
-        }
+        //public Customer SearchCustomerByName(string customerName)
+        //{
+        //    foreach (Customer customer in Customers)
+        //    {
+        //        for (int i = 0; i < Customers.Count; i++)
+        //        {
+        //            if (Customers[i].CustomerName == customerName)
+        //                return Customers[i];
+        //        }
+        //    }
+        //    return;
+        //}
         public void Clear()
         {
             Customers.Clear();
