@@ -29,7 +29,7 @@ namespace PizzaStore
         }
         public void CreateACustomer(Customer customer)
         {
-                Customers.Insert(customer.CustomerId, customer);
+            Customers.Insert(customer.CustomerId, customer);
         }
         public void DeleteACustomer(int CustomerId)
         {
@@ -45,7 +45,7 @@ namespace PizzaStore
         {
             if (Customers.Contains(updatedCustomer))
             {
-                Console.WriteLine("Customer does not exist");
+                updatedCustomer = null;
             }
             else
             {
@@ -76,7 +76,6 @@ namespace PizzaStore
         }
         public void PrintCustomerList()
         {
-            Console.WriteLine($"There are {Customers.Count} items on the list");
             foreach (Customer customer in Customers)
             {
                 if (customer != null)
