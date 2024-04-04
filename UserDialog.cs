@@ -185,12 +185,8 @@ namespace PizzaStore
                         int pizzaId = 0;
                         try 
                         {
-                            do
-                            {
                                 pizzaIdString = Console.ReadLine();
                                 pizzaId = int.Parse(pizzaIdString);
-                            }
-                            while (pizzaId == null);
                         } 
                         catch (FormatException e) 
                         {
@@ -249,11 +245,25 @@ namespace PizzaStore
                             {
                                 Console.WriteLine("Enter a new price");
                                 string newPriceString = Console.ReadLine();
+                                int newPrice = 0;
                                 try
                                 {
-                                    int newPrice = int.Parse(newPriceString);
+                                    newPrice = int.Parse(newPriceString);
+                                    do
+                                    {
+                                        if (newPrice < 70)
+                                        {
+                                            Console.WriteLine("Price too low. Minimum 70kr.");
+                                        }
+                                        else
+                                        {
+
+                                            Console.WriteLine($"Price for {pizzaName} is now {newPrice} kr.");
+                                        }
+                                    }
+                                    while (newPrice < 70);
+
                                     PizzaCatalog.SearchForPizzaById(choosePizza).Price = newPrice;
-                                    Console.WriteLine($"Price for {pizzaName} is now {newPrice} kr.");
                                 }
                                 catch (FormatException)
                                 {
