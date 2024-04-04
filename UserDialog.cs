@@ -10,14 +10,14 @@ namespace PizzaStore
 {
     public class UserDialog
     {
-        PizzaCatalog _pizzaCatalog;
-        CustomerCatalog _customerCatalog;
+        PizzaCatalog PizzaCatalog;
+        CustomerCatalog CustomerCatalog;
         OrderCatalog OrderCatalog;
 
         public UserDialog(PizzaCatalog menuCatalog, CustomerCatalog customerCatalog, OrderCatalog orderCatalog)
         {
-            _pizzaCatalog = menuCatalog;
-            _customerCatalog = customerCatalog;
+            PizzaCatalog = menuCatalog;
+            CustomerCatalog = customerCatalog;
             OrderCatalog = orderCatalog;
         }
         public int MainMenuChoiceMethod(List<string> menuItems)
@@ -158,24 +158,31 @@ namespace PizzaStore
                         PizzaSettingProceed = false;
                         break;
                     case 1:
-                        Pizza pizzaCreate = _pizzaCatalog.GetNewPizza();
-                        _pizzaCatalog.RemoveAt(pizzaCreate.PizzaId);
-                        _pizzaCatalog.CreateAPizza(pizzaCreate);
-                        Console.WriteLine($"You created {pizzaCreate.Name} with id: {pizzaCreate.PizzaId} and price: {pizzaCreate.Price}");
+                        Pizza pizzaCreate = PizzaCatalog.GetNewPizza();
+                        if (pizzaCreate == null)
+                        {
+                            Console.WriteLine("A pizza with that id already exists");
+                        }
+                        else 
+                        {
+                            PizzaCatalog.RemoveAt(pizzaCreate.PizzaId);
+                            PizzaCatalog.CreateAPizza(pizzaCreate);
+                            Console.WriteLine($"You created {pizzaCreate.Name} with id: {pizzaCreate.PizzaId} and price: {pizzaCreate.Price}");
 
-                        Console.WriteLine("Press any key to go back to the pizza settings");
-                        Console.ReadKey(); Console.Clear();
+                            Console.WriteLine("Press any key to go back to the pizza settings");
+                            Console.ReadKey(); Console.Clear();
+                        }
                         break;
                     case 2:
                         Console.WriteLine("Which pizza would you like to delete from the list?");
-                        _pizzaCatalog.PrintMenu();
+                        PizzaCatalog.PrintMenu();
                         string pizzaDelete = Console.ReadLine();
                         int deleteResult = int.Parse(pizzaDelete);
                         Console.WriteLine($"Are you sure you want to delete pizza {deleteResult} from the list?\ny/n");
                         string deleteAnswer = Console.ReadLine();
                         if (deleteAnswer == "y")
                         {
-                            _pizzaCatalog.DeleteAPizza(deleteResult);
+                            PizzaCatalog.DeleteAPizza(deleteResult);
                             Console.WriteLine($"You deleted pizza {deleteResult} from the list");
                         }
                         else
@@ -186,17 +193,17 @@ namespace PizzaStore
                         Console.ReadKey(); Console.Clear();
                         break;
                     case 3:
-                        _pizzaCatalog.PrintMenu();
+                        PizzaCatalog.PrintMenu();
                         Console.WriteLine("Which pizza would you like to update?\nEnter number: ");
                         string choosePizzaString = Console.ReadLine();
                         int choosePizza = int.Parse(choosePizzaString);
-                        if (_pizzaCatalog.SearchForPizzaById(choosePizza) != null)
+                        if (PizzaCatalog.SearchForPizzaById(choosePizza) != null)
                         {
                             Console.Clear();
                             Console.WriteLine("Enter the new pizza name: ");
                             string pizzaName = Console.ReadLine();
-                            Pizza updatePizza = new Pizza(pizzaName, _pizzaCatalog.SearchForPizzaById(choosePizza).Price, choosePizza);
-                            _pizzaCatalog.UpdatePizza(updatePizza);
+                            Pizza updatePizza = new Pizza(pizzaName, PizzaCatalog.SearchForPizzaById(choosePizza).Price, choosePizza);
+                            PizzaCatalog.UpdatePizza(updatePizza);
                             Console.WriteLine($"Pizza {choosePizza} is now updated to {pizzaName}");
                             Console.WriteLine("Would you like to update the price too?\ny/n");
                             string updatePizzaAnswer = Console.ReadLine();
@@ -204,19 +211,19 @@ namespace PizzaStore
                             {
                                 Console.WriteLine("Enter a new price");
                                 string newPriceString = Console.ReadLine();
-                                try 
+                                try
                                 {
                                     int newPrice = int.Parse(newPriceString);
-                                    _pizzaCatalog.SearchForPizzaById(choosePizza).Price = newPrice;
+                                    PizzaCatalog.SearchForPizzaById(choosePizza).Price = newPrice;
                                     Console.WriteLine($"Price for {pizzaName} is now {newPrice} kr.");
-                                } 
-                                catch (FormatException)
-                                { 
-                                    Console.WriteLine($"Unable to parse {newPriceString}\nPrice is unchanged."); 
                                 }
-                                
+                                catch (FormatException)
+                                {
+                                    Console.WriteLine($"Unable to parse {newPriceString}\nPrice is unchanged.");
+                                }
+
                             }
-                            else 
+                            else
                             {
                                 Console.WriteLine($"Pizza {choosePizza} updated to {pizzaName} with unchanged price");
                             }
@@ -230,14 +237,14 @@ namespace PizzaStore
                         Console.WriteLine("Find a pizza by its pizzaID: ");
                         string pizzaId = Console.ReadLine();
                         int resultPizzaId = int.Parse(pizzaId);
-                        Console.WriteLine(_pizzaCatalog.SearchForPizzaById(resultPizzaId));
+                        Console.WriteLine(PizzaCatalog.SearchForPizzaById(resultPizzaId));
                         break;
                     case 5:
                         Console.WriteLine("Are you sure you want to clear the list of pizzas?\ny/n");
                         string answer = Console.ReadLine();
                         if (answer == "y")
                         {
-                            _pizzaCatalog.Clear();
+                            PizzaCatalog.Clear();
                             Console.WriteLine("You cleared the list of pizzas\n");
                         }
                         else
@@ -246,9 +253,9 @@ namespace PizzaStore
                         }
                         break;
                     case 6:
-                        if (_pizzaCatalog.Count > 1)
+                        if (PizzaCatalog.Count > 1)
                         {
-                            _pizzaCatalog.PrintMenu();
+                            PizzaCatalog.PrintMenu();
                         }
                         else
                         {
@@ -258,13 +265,13 @@ namespace PizzaStore
                         Console.ReadKey(); Console.Clear();
                         break;
                     case 7:
-                        
+
                         break;
                 }
             }
 
         }
-        public void CustomerSetting() 
+        public void CustomerSetting()
         {
             bool CustomerSettingProceed = true;
             List<string> CustomerSettingList = new List<string>()
@@ -288,22 +295,29 @@ namespace PizzaStore
                         CustomerSettingProceed = false;
                         break;
                     case 1:
-                        Customer customerCreate = _customerCatalog.GetNewCustomer();
-                        _customerCatalog.RemoveAt(customerCreate.CustomerId);
-                        _customerCatalog.CreateACustomer(customerCreate);
-                        Console.WriteLine($"You created {customerCreate.CustomerName} with id: {customerCreate.CustomerId}");
-                        Console.ReadKey(); Console.Clear();
+                        Customer customerCreate = CustomerCatalog.GetNewCustomer();
+                        if (customerCreate == null)
+                        {
+                            Console.WriteLine($"Customer with that id already exists");
+                        }
+                        else
+                        {
+                            CustomerCatalog.RemoveAt(customerCreate.CustomerId);
+                            CustomerCatalog.CreateACustomer(customerCreate);
+                            Console.WriteLine($"You created {customerCreate.CustomerName} with id: {customerCreate.CustomerId}");
+                            Console.ReadKey(); Console.Clear();
+                        }
                         break;
                     case 2:
                         Console.WriteLine("Which customer would you like to delete from the list?");
-                        _customerCatalog.PrintCustomerList();
+                        CustomerCatalog.PrintCustomerList();
                         string customerDelete = Console.ReadLine();
                         int deleteResult = int.Parse(customerDelete);
                         Console.WriteLine($"Are you sure you want to delete customer {deleteResult} from the list?\ny/n");
                         string deleteAnswer = Console.ReadLine();
                         if (deleteAnswer == "y")
                         {
-                            _customerCatalog.DeleteACustomer(deleteResult);
+                            CustomerCatalog.DeleteACustomer(deleteResult);
                             Console.WriteLine($"You deleted customer {deleteResult} from the list");
                         }
                         else
@@ -314,38 +328,38 @@ namespace PizzaStore
                         Console.ReadKey(); Console.Clear();
                         break;
                     case 3:
-                        _customerCatalog.PrintCustomerList();
+                        CustomerCatalog.PrintCustomerList();
                         Console.WriteLine("Which customer would you like to update?\nEnter number: ");
                         string chooseCustomerString = Console.ReadLine();
                         int chooseCustomer = int.Parse(chooseCustomerString);
-                        if (_customerCatalog.SeachForCustomerById(chooseCustomer) != null)
+                        if (CustomerCatalog.SeachForCustomerById(chooseCustomer) != null)
                         {
                             Console.WriteLine("Enter the new customer name: ");
                             string customerName = Console.ReadLine();
                             Customer updateCustomer = new Customer(customerName, chooseCustomer);
-                            _customerCatalog.UpdateCustomer(updateCustomer);
+                            CustomerCatalog.UpdateCustomer(updateCustomer);
                             Console.WriteLine($"You updated customer {chooseCustomer}. Customer {chooseCustomer} is now {customerName}");
                         }
-                        else 
+                        else
                         {
                             Console.WriteLine("Customer does not exist");
                         }
                         break;
                     case 4:
-                        Console.WriteLine("Find a customer by a name: ");
-                        string findCustomerString = Console.ReadLine();
-                        _customerCatalog.SearchCustomerByName(findCustomerString);
-                        if (_customerCatalog.SearchCustomerByName(findCustomerString).CustomerName == findCustomerString)
-                        {
-                            Console.WriteLine($"Found a customer with name: {findCustomerString}");
-                        }
+                        //    Console.WriteLine("Find a customer by a name: ");
+                        //    string findCustomerString = Console.ReadLine();
+                        //    _customerCatalog.SearchCustomerByName(findCustomerString);
+                        //    if (_customerCatalog.SearchCustomerByName(findCustomerString).CustomerName == findCustomerString)
+                        //    {
+                        //        Console.WriteLine($"Found a customer with name: {findCustomerString}");
+                        //    }
                         break;
                     case 5:
                         Console.WriteLine("Are you sure you want to clear the list of customers?\ny/n");
                         string answer = Console.ReadLine();
                         if (answer == "y")
                         {
-                            _customerCatalog.Clear();
+                            CustomerCatalog.Clear();
                             Console.WriteLine("You cleared the list of customers\n");
                         }
                         else
@@ -354,7 +368,7 @@ namespace PizzaStore
                         }
                         break;
                     case 6:
-                        _customerCatalog.PrintCustomerList();
+                        CustomerCatalog.PrintCustomerList();
                         break;
                 }
             }
@@ -384,12 +398,12 @@ namespace PizzaStore
                         OrderSettingProceed = false;
                         break;
                     case 1:
-                        _customerCatalog.PrintCustomerList();
+                        CustomerCatalog.PrintCustomerList();
                         Console.WriteLine("Enter customer ID: ");
                         string customerToOrderString = Console.ReadLine();
                         int customerToOrder = int.Parse(customerToOrderString);
 
-                        _pizzaCatalog.PrintMenu();
+                        PizzaCatalog.PrintMenu();
                         Console.WriteLine("Enter pizza ID: ");
                         string pizzaToOrderString = Console.ReadLine();
                         int pizzaToOrder = int.Parse(pizzaToOrderString);
@@ -405,16 +419,16 @@ namespace PizzaStore
                         OrderCatalog.SeachForOrderById(orderId);
                         if (OrderCatalog.SeachForOrderById(orderId) != null)
                         {
-                            Console.WriteLine($"You are about to overrite an existing order. \nAre you sure you want to overwrite {OrderCatalog.SeachForOrderById(orderId)}?\ny/n"); 
+                            Console.WriteLine($"You are about to overrite an existing order. \nAre you sure you want to overwrite {OrderCatalog.SeachForOrderById(orderId)}?\ny/n");
                             string overrideString = Console.ReadLine();
                             if (overrideString == "y")
                             {
                                 OrderCatalog.RemoveAt(orderId);
-                                OrderCatalog.AddAnOrderToTheList(OrderCatalog.GetNewOrderFromExisting(_customerCatalog.SeachForCustomerById(customerToOrder), _pizzaCatalog.SearchForPizzaById(pizzaToOrder), noOfPizzas, orderId));
+                                OrderCatalog.AddAnOrderToTheList(OrderCatalog.GetNewOrderFromExisting(CustomerCatalog.SeachForCustomerById(customerToOrder), PizzaCatalog.SearchForPizzaById(pizzaToOrder), noOfPizzas, orderId));
                                 Console.WriteLine($"\nThe order was overwritten with {OrderCatalog.SeachForOrderById(orderId)}\n");
                             }
                         }
-                        else 
+                        else
                         {
                             Console.WriteLine("You did not override the existing order");
                         }
@@ -427,24 +441,37 @@ namespace PizzaStore
                         Console.WriteLine("Enter number of pizzas: ");
                         string noOfNewPizzasString = Console.ReadLine();
                         int noOfNewPizzas = int.Parse(noOfNewPizzasString);
-                        OrderCatalog.AddAnOrderToTheList(OrderCatalog.GetNewOrder(_customerCatalog.GetNewCustomer(), _pizzaCatalog.GetNewPizza(), newOrderId, noOfNewPizzas));
+                        OrderCatalog.AddAnOrderToTheList(OrderCatalog.GetNewOrder(CustomerCatalog.GetNewCustomer(), PizzaCatalog.GetNewPizza(), newOrderId, noOfNewPizzas));
                         break;
                     case 3:
-                        _customerCatalog.UpdateCustomer(_customerCatalog.GetNewCustomer());
+                        OrderCatalog.PrintOrderList();
+                        Console.WriteLine("Which order would you like to delete?\nEnter a number: ");
+                        string deleteOrderString = Console.ReadLine();
+                        int deleteOrder = int.Parse(deleteOrderString);
+                        OrderCatalog.DeleteAnOrder(deleteOrder);
+                        Console.WriteLine($"You deleted order {deleteOrder} from the list");
                         break;
                     case 4:
+                        OrderCatalog.PrintOrderList();
+                        Console.WriteLine("Which order would you like to order?\nEnter a number: ");
+                        string updateOrderString = Console.ReadLine();
+                        int updateOrder = int.Parse(updateOrderString);
+                        OrderCatalog.UpdateOrder(updateOrder);
+                        Console.WriteLine($"You updated order {updateOrder}");
+                        break;
+                    case 5:
                         //Console.WriteLine("Find a customer by a name: ");
                         //string findCustomer = Console.ReadLine();
                         //_customerCatalog.SearchCustomerByName(findCustomer);
                         //Console.WriteLine();
                         //Console.ReadKey();
                         break;
-                    case 5:
+                    case 6:
                         Console.WriteLine("Are you sure you want to clear the list of customers?\ny/n");
                         string answer = Console.ReadLine();
                         if (answer == "y")
                         {
-                            _customerCatalog.Clear();
+                            CustomerCatalog.Clear();
                             Console.WriteLine("You cleared the list of customers\n");
                         }
                         else
@@ -452,7 +479,7 @@ namespace PizzaStore
                             Console.WriteLine("You did not clear the list of customers");
                         }
                         break;
-                    case 6:
+                    case 7:
                         OrderCatalog.PrintOrderList();
                         break;
                 }
