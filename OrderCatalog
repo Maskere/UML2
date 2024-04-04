@@ -13,29 +13,29 @@ namespace PizzaStore
         PizzaCatalog Pizzas;
         Customer _customer;
         Pizza _pizza;
-        public OrderCatalog() 
+        public OrderCatalog()
         {
             Order = new List<Order>(new Order[10]);
             Customers = new CustomerCatalog();
             Pizzas = new PizzaCatalog();
-            _customer = new Customer("",0);
-            _pizza = new Pizza("",0,0);
+            _customer = new Customer("", 0);
+            _pizza = new Pizza("", 0, 0);
         }
         public int Count
         {
             get { return Order.Count; }
         }
         public Customer Customer { get { return _customer; } }
-        public Pizza Pizza { get {  return _pizza; } }
-        public Order GetNewOrderFromExisting(Customer customer,Pizza pizza,int noOfPizzasInOrder, int orderId)
+        public Pizza Pizza { get { return _pizza; } }
+        public Order GetNewOrderFromExisting(Customer customer, Pizza pizza, int noOfPizzasInOrder, int orderId)
         {
-            Order order = new Order(customer,pizza,noOfPizzasInOrder,orderId);
+            Order order = new Order(customer, pizza, noOfPizzasInOrder, orderId);
             if (Order.Contains(order)) { Console.WriteLine($"An order with id:{orderId} already exist"); return null; }
             return order;
         }
-        public Order GetNewOrder(Customer customer, Pizza pizza, int noOfPizzasInOrder,int orderId) 
+        public Order GetNewOrder(Customer customer, Pizza pizza, int noOfPizzasInOrder, int orderId)
         {
-            Order order = new Order(customer,pizza,noOfPizzasInOrder,orderId);
+            Order order = new Order(customer, pizza, noOfPizzasInOrder, orderId);
             return order;
         }
         public void AddAnOrderToTheList(Order order)
@@ -43,21 +43,28 @@ namespace PizzaStore
             if (Order.Contains(order)) { Console.WriteLine($"An order with id:{order.OrderId} already exist"); return; }
             Order.Insert(order.OrderId, order);
         }
-        //public void DeleteAnOrder(int OrderId)
-        //{
-        //    Console.WriteLine("Enter");
-        //    Order.Insert(OrderId, new Order(Customers.DeleteACustomer(),Pizzas.DeleteAPizza(), OrderId));
-        //    Order.RemoveAt(OrderId + 1);
-        //}
+        public void DeleteAnOrder(int OrderId)
+        {
+            Order.Insert(OrderId, new Order(new Customer("",0), new Pizza("", 0, 0), 0,OrderId));
+            Order.RemoveAt(OrderId+1);
+        }
         public Order SeachForOrderById(int orderId)
         {
             Order findOrder = Order[orderId];
             return findOrder;
         }
-        public Order UpdateOrder(int orderId)
+        public void UpdateOrder(int orderId)
         {
-            Order order = new Order(Customers.GetNewCustomer(), Pizzas.GetNewPizza(),0,orderId);
-            return order;
+            Order updateOrder = new Order(Customers.GetNewCustomer(), Pizzas.GetNewPizza(), 0, orderId);
+            if (Order.Contains(updateOrder))
+            {
+                Console.WriteLine("Customer does not exist");
+            }
+            else
+            {
+                Order.RemoveAt(updateOrder.OrderId);
+                Order.Insert(updateOrder.OrderId, updateOrder);
+            }
         }
         //public Customer SearchCustomerByName(string customerName)
         //{
