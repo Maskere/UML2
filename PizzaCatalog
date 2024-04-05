@@ -21,13 +21,15 @@ namespace PizzaStore
         public Pizza GetNewPizza(string pizzaName, int pizzaPrice, int pizzaId)
         {
             Pizza pizza = new Pizza(pizzaName, pizzaPrice, pizzaId);
+            if (Pizzas[pizzaId] != null)
+                return null;
             return pizza;
         }
         public void UpdatePizza(Pizza updatePizza)
         {
             if (Pizzas.Contains(updatePizza))
             {
-                Console.WriteLine("Pizza does not exist");
+                updatePizza = null;
             }
             else
             {
@@ -60,7 +62,6 @@ namespace PizzaStore
         }
         public void PrintMenu()
         {
-            Console.WriteLine($"There are {Pizzas.Count} items on the list");
             foreach (Pizza pizza in Pizzas)
             {
                 if (pizza != null)
