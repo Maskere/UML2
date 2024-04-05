@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,19 +33,19 @@ namespace PizzaStore
             get { return _pizzaName; }
         }
         public Customer CustomerName
-        { 
-            get { return _customerName; } 
+        {
+            get { return _customerName; }
         }
-        public int NumberOfPizzasInOrder 
+        public int NumberOfPizzasInOrder
         {
             get { return _numberOfPizzasInOrder; }
-            set { _numberOfPizzasInOrder = value;}
+            set { _numberOfPizzasInOrder = value; }
         }
         public double TotalPrice
-        { 
-            get { return _totalPrice; } 
+        {
+            get { return _totalPrice; }
         }
-        public int OrderId 
+        public int OrderId
         {
             get { return _orderID; }
             set { _orderID = value; }
@@ -57,7 +57,7 @@ namespace PizzaStore
         {
             _totalPrice = PizzaName.Price * _numberOfPizzasInOrder + 40;
         }
-        public override string ToString() 
+        public override string ToString()
         {
             return $"Order {OrderId}: {NumberOfPizzasInOrder} x {PizzaName} for {CustomerName}";
         }
